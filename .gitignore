@@ -1,23 +1,31 @@
-# ignore everything in the root except the "wp-content" directory.
-!wp-content/
-
-# ignore everything in the "wp-content" directory, except:
-# "mu-plugins", "plugins", "themes" directory
-wp-content/*
-!wp-content/mu-plugins/
-!wp-content/plugins/
-!wp-content/themes/
-
-# ignore these plugins
-wp-content/plugins/hello.php
-
-# ignore specific themes
-wp-content/themes/twenty*/
-
-# ignore node dependency directories
-node_modules/
-
-# ignore log files and databases
+.phpintel
+.sass-cache
+.scss-cache
+scss/.sass-cache/
+bower_components
+.bower-cache
+.bower-registry
+.bower-tmp
+.idea/
+_book
+nbproject
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+.nb-gradle/
 *.log
-*.sql
-*.sqlite
+npm-debug.log
+node_modules
+.DS_Store
+**/.DS_Store
+*.map
+.greyhr
+Thumbs.db
+sftp-config.json
+*.sublime-project
+*.sublime-workspace
+.vscode/
+inc/frameworks/

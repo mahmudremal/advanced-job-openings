@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="css/forms-out.css">
+<form>
+  <div class="fwp-input-group group">
+      <input type="email" name="floating_email" id="floating_email" class="fwp-regular-text peer" placeholder=" " required="">
+      <label for="floating_email" class="fwp-regular-text-label">Email address</label>
+  </div>
+  <div class="fwp-input-group error group">
+      <input type="email" name="floating_email" id="floating_email" class="fwp-regular-text peer" placeholder=" " required="">
+      <label for="floating_email" class="fwp-regular-text-label">Email address</label>
+      <p class="error-msg"><span class="font-medium">Oops!</span> Username already taken!</p>
+  </div>
+  <div class="fwp-input-group group">
+      <input type="password" name="floating_password" id="floating_password" class="fwp-regular-text peer" placeholder=" " required="">
+      <label for="floating_password" class="fwp-regular-text-label">Password</label>
+  </div>
+  <div class="fwp-input-group group">
+      <input type="password" name="repeat_password" id="floating_repeat_password" class="fwp-regular-text peer" placeholder=" " required="">
+      <label for="floating_repeat_password" class="fwp-regular-text-label">Confirm password</label>
+  </div>
+  <div class="fwp-input-row">
+    <div class="fwp-input-group group">
+        <input type="text" name="floating_first_name" id="floating_first_name" class="fwp-regular-text peer" placeholder=" " required="">
+        <label for="floating_first_name" class="fwp-regular-text-label">First name</label>
+    </div>
+    <div class="fwp-input-group group">
+        <input type="text" name="floating_last_name" id="floating_last_name" class="fwp-regular-text peer" placeholder=" " required="">
+        <label for="floating_last_name" class="fwp-regular-text-label">Last name</label>
+    </div>
+  </div>
+  <div class="fwp-input-row">
+    <div class="fwp-input-group group">
+        <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="floating_phone" id="floating_phone" class="fwp-regular-text peer" placeholder=" " required="">
+        <label for="floating_phone" class="fwp-regular-text-label">Phone number (123-456-7890)</label>
+    </div>
+    <div class="fwp-input-group group">
+        <input type="text" name="floating_company" id="floating_company" class="fwp-regular-text peer" placeholder=" " required="">
+        <label for="floating_company" class="fwp-regular-text-label">Company (Ex. Google)</label>
+    </div>
+  </div>
+  <button type="submit" class="fwp-submit-button">Submit</button>
+</form>
