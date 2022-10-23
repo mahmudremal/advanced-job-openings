@@ -30,11 +30,13 @@ class FUTUREWORDPRESS_PROJECT {
 		Register_Post_Types::get_instance();
 		Register_Taxonomies::get_instance();
 		// Archive_Settings::get_instance();
+    Update::get_instance();
 	}
 	protected function setup_hooks() {
 		add_filter( 'futurewordpress/project/job/currencies', [ $this, 'jobCurrencies' ], 10, 1 );
 		add_action( 'plugins_loaded', [ $this, 'installHook' ], 10, 0 );
 		add_action( 'init', [ $this, 'loadTextdomain' ], 1, 0 ); // plugins_loaded
+		add_action( 'body_class', [ $this, 'body_class' ], 1, 1 ); // plugins_loaded
   }
 	public function installHook() {
 		register_activation_hook( __FILE__, [ $this, 'onInstall' ] );
@@ -224,5 +226,10 @@ class FUTUREWORDPRESS_PROJECT {
 		}
 		return $row;
 	}
+  public function body_class( $classes ) {
+    if( is_array( $classes ) ) {$classes = (array) $classes;}
+    $classes[] = 'fwp-ajo';
+    return $classes;
+  }
 
 }
