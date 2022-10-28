@@ -10,7 +10,7 @@
  * Plugin URI: https://github.com/mahmudremal/advanced-job-openings/
  * Author: Future Wordpress
  * Author URI: https://futurewordpress.com/
- * Version: v1.0.0
+ * Version: 1.0.2
  * Description: A simple and lightweight plugin for wordpress Job Listing and Job opening Platform.
  * Text Domain: fwp-ajo
  * Domain Path: /languages
