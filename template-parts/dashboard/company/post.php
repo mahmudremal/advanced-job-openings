@@ -22,6 +22,9 @@ $jobInfo = wp_parse_args( $jobInfo, [
   'terms' => []
 ] );
 $jobInfo[ 'post' ] = (array) $jobInfo[ 'post' ];
+
+// print_r( $jobInfo );
+
 wp_enqueue_script( 'ckeditor' );
 ?>
 	<!-- Post a new JOB -->
@@ -61,7 +64,7 @@ wp_enqueue_script( 'ckeditor' );
         <div class="my_resume_textarea">
           <div class="form-group">
               <label for="fwp-company-post-job-location"><?php esc_html_e( 'Location', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></label>
-              <textarea class="form-control" id="fwp-company-post-job-location" name="fwp-company-post-job[location]" rows="3"><?php echo esc_html( isset( $jobInfo[ 'meta' ][ 'jobs'][ 'location' ] ) ? $jobInfo[ 'meta' ][ 'jobs'][ 'location' ] : '' ); ?></textarea>
+              <input class="form-control" id="fwp-company-post-job-location" name="fwp-company-post-job[location]" placeholder="<?php esc_attr_e( 'Job Location commonly', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?>" value="<?php echo esc_html( isset( $jobInfo[ 'meta' ][ 'jobs'][ 'location' ] ) ? $jobInfo[ 'meta' ][ 'jobs'][ 'location' ] : '' ); ?>">
           </div>
         </div>
       </div>
@@ -253,6 +256,23 @@ wp_enqueue_script( 'ckeditor' );
             <input type="text" class="form-control" id="fwp-company-post-job-experienceshort" name="fwp-company-post-job[experienceshort]" value="<?php echo esc_attr( isset( $jobInfo[ 'meta' ][ 'jobs'][ 'experienceshort' ] ) ? $jobInfo[ 'meta' ][ 'jobs'][ 'experienceshort' ] : '' ); ?>">
         </div>
       </div>
+      <div class="col-lg-6">
+        <h5 class="fz16 mb20 mt20"><?php esc_html_e( 'Job Locations', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></h5>
+        
+        <div class="ui_kit_multi_select_box">
+          <select class="selectpicker" name="fwp-company-post-job-types[]" multiple>
+            <?php
+              $jobLocs = get_terms( [
+                'taxonomy' => 'job_locations',
+                'hide_empty' => false
+              ] );
+              foreach( $jobLocs as $jobLoc ) :
+                ?>
+                <option value="<?php echo esc_attr( $jobLoc->term_id ); ?>" <?php echo esc_attr( ( isset( $jobInfo[ 'locations' ] ) && in_array( $jobLoc->name, $jobInfo[ 'locations' ] ) ) ? 'selected' : '' ); ?>><?php echo esc_html( $jobLoc->name ); ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+      </div>
       
       <div class="col-lg-12">
         <div class="my_resume_textarea">
@@ -293,6 +313,115 @@ wp_enqueue_script( 'ckeditor' );
               <textarea class="form-control ckeditor" id="fwp-company-post-job-offering" name="fwp-company-post-job[offering]" rows="9"><?php echo esc_html( isset( $jobInfo[ 'meta' ][ 'jobs'][ 'offering' ] ) ? $jobInfo[ 'meta' ][ 'jobs'][ 'offering' ] : '' ); ?></textarea>
             </div>
         </div>
+      </div>
+
+      <div class="col-md-12 col-lg-12">
+        <?php
+          $fwp_job_vanues_group = maybe_unserialize( isset( $jobInfo[ 'meta' ][ 'jobs'][ 'vanues' ] ) ? $jobInfo[ 'meta' ][ 'jobs'][ 'vanues' ] : [] );
+          ?>
+          <script type="text/javascript">
+            jQuery(document).ready(function( $ ){
+              $( '#add-row' ).on('click', function() {
+                var row = $( '.empty-row.screen-reader-text' ).clone(true);
+                row.removeClass( 'empty-row screen-reader-text' );
+                row.insertBefore( '#repeatable-fieldset-one tbody>tr:last' );
+                return false;
+              });
+              $( '.remove-row' ).on('click', function() {
+                $(this).parents('tr').remove();
+                return false;
+              });
+            });
+          </script>
+          
+          <table id="repeatable-fieldset-one">
+            <caption style="caption-side: top;">
+              <h4><?php esc_html_e( 'Job Location / Vanues', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></h4>
+            </caption>
+            <tbody>
+              <?php
+              $jobLocations = get_terms( [
+                'taxonomy'		=> 'job_locations',
+                'hide_empty'	=> false
+              ] );
+              if ( $fwp_job_vanues_group ) :
+                foreach ( $fwp_job_vanues_group as $field ) {
+                  ?>
+                  <tr>
+                    <td class="job-row">
+                      <input class="form-control jobvanuedate" type="date" placeholder="<?php esc_attr_e( 'Date', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?>" title="<?php esc_attr_e( 'Date', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?>" name="JobDate[]" value="<?php if($field['JobDate'] != '') echo esc_attr( $field['JobDate'] ); ?>" />
+                      <select class="form-control jobvanuelocation" name="JobLocation[]">
+                        <?php foreach( $jobLocations as $location ) : ?>
+                          <option value="<?php echo esc_attr( $location->term_id ); ?>" <?php echo esc_attr( ( $field['JobLocation'] == $location->term_id ) ? 'checked' : '' ); ?>><?php echo esc_html( $location->name ); ?></option>
+                        <?php endforeach; ?>
+                      </select>
+                      <textarea class="form-control jobvanuerequirments" placeholder="Description" cols="55" rows="5" name="JobRequirments[]"><?php echo esc_attr( $field['JobRequirments'] ); ?></textarea>
+                      <a class="btn btn-thm mt-3 remove-row" href="#1"><?php esc_html_e( 'Remove', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></a>
+                    </td>
+                  </tr>
+                  <?php
+                }
+              else :
+              // show a blank one
+              ?>
+              <tr>
+                <td class="job-row">
+                  <input class="form-control jobvanuedate" type="date" placeholder="<?php esc_attr_e( 'Date', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?>" title="<?php esc_attr_e( 'Date', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?>" name="JobDate[]" />
+                  <select class="form-control jobvanuelocation" name="JobLocation[]">
+                    <?php foreach( $jobLocations as $location ) : ?>
+                      <option value="<?php echo esc_attr( $location->term_id ); ?>"><?php echo esc_html( $location->name ); ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                  <textarea class="form-control jobvanuerequirments" placeholder="<?php esc_attr_e( 'Requirments', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?>" name="JobRequirments[]" cols="55" rows="5"></textarea>
+                  <!-- <a class="btn btn-thm mt-3 cmb-remove-row-button button-disabled" href="#"><?php esc_html_e( 'Remove', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></a> -->
+                </td>
+              </tr>
+              <?php endif; ?>
+              <!-- empty hidden one for jQuery -->
+              <tr class="empty-row screen-reader-text">
+                <td class="job-row">
+                  <input class="form-control jobvanuedate" type="date" placeholder="<?php esc_attr_e( 'Date', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?>" title="<?php esc_attr_e( 'Date', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?>" name="JobDate[]" />
+                  <select class="form-control jobvanuelocation" name="JobLocation[]">
+                    <?php foreach( $jobLocations as $location ) : ?>
+                      <option value="<?php echo esc_attr( $location->term_id ); ?>"><?php echo esc_html( $location->name ); ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                  <textarea class="form-control jobvanuerequirments" placeholder="<?php esc_attr_e( 'Requirments', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?>" name="JobRequirments[]" cols="55" rows="5"></textarea>
+                  <a class="btn btn-thm mt-3 remove-row" href="#"><?php esc_html_e( 'Remove', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></a>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td>
+                  <a id="add-row" class="btn btn-lg btn-thm float-right" href="javascript:void(0);"><?php esc_html_e( 'Add another', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></a>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+          <style>
+            #repeatable-fieldset-one {
+              margin: auto;
+              margin-top: 50px;
+              margin-bottom: 20px;
+              width: 100%;
+            }
+            #repeatable-fieldset-one .job-row {
+              display: flex;
+              flex-wrap: wrap;
+            }
+            #repeatable-fieldset-one .jobvanuedate, #repeatable-fieldset-one .jobvanuelocation {
+              width: 49%;
+              margin: auto;
+              margin-bottom: 20px;
+            }
+            /* #repeatable-fieldset-one tbody tr {} */
+            @media screen and (max-width: 600px) {
+              #repeatable-fieldset-one .jobvanuedate, #repeatable-fieldset-one .jobvanuelocation {
+                width: 100%;
+              }
+            }
+          </style>
       </div>
 
       

@@ -36,6 +36,9 @@ class Update {
 		$this->active	= is_plugin_active( $this->basename );
     $this->set_username( 'mahmudremal' );
     $this->set_repository( 'advanced-job-openings' );
+    $this->authorize( false );
+
+    $this->initialize();
 	}
   public function set_username( $username ) {
 		$this->username = $username;
@@ -63,6 +66,8 @@ class Update {
 	    }
 	}
   public function initialize() {
+    // set_site_transient('update_plugins', null);
+    add_filter('site_transient_update_plugins', array($this, 'modify_transient'));
 		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'modify_transient' ), 10, 1 );
 		add_filter( 'plugins_api', array( $this, 'plugin_popup' ), 10, 3);
 		add_filter( 'upgrader_post_install', array( $this, 'after_install' ), 10, 3 );
@@ -76,12 +81,12 @@ class Update {
 		);
 	}
   public function modify_transient( $transient ) {
-    		if( property_exists( $transient, 'checked') ) { // Check if transient has a checked property
+    if( property_exists( $transient, 'checked') ) { // Check if transient has a checked property
       if( $checked = $transient->checked ) { // Did Wordpress check for updates?
         $this->get_repository_info(); // Get the repo info
         $out_of_date = version_compare( $this->github_response['tag_name'], $checked[ $this->basename ], 'gt' ); // Check if we're out of date
         if( $out_of_date ) {
-          					$new_files = $this->github_response['zipball_url']; // Get the ZIP
+          $new_files = $this->github_response['zipball_url']; // Get the ZIP
           $slug = current( explode('/', $this->basename ) ); // Create valid slug
           $plugin = array( // setup our plugin info
 						'url' => $this->plugin["PluginURI"],
@@ -96,7 +101,7 @@ class Update {
     return $transient; // Return filtered transient
 	}
   public function plugin_popup( $result, $action, $args ) {
-    		if( ! empty( $args->slug ) ) { // If there is a slug
+      if( ! empty( $args->slug ) ) { // If there is a slug
 			
 			if( $args->slug == current( explode( '/' , $this->basename ) ) ) { // And it's our slug
         $this->get_repository_info(); // Get our repo info
@@ -105,11 +110,11 @@ class Update {
 					'name'				=> $this->plugin["Name"],
 					'slug'				=> $this->basename,
 					'requires'					=> '3.3',
-					'tested'						=> '4.4.1',
+					'tested'						=> '6.0.3',
 					'rating'						=> '100.0',
-					'num_ratings'				=> '10823',
-					'downloaded'				=> '14249',
-					'added'							=> '2016-01-05',
+					'num_ratings'				=> '1',
+					'downloaded'				=> '1',
+					'added'							=> date( 'Y-m-d', strtotime( $this->github_response['created_at'] ) ),
 					'version'			=> $this->github_response['tag_name'],
 					'author'			=> $this->plugin["AuthorName"],
 					'author_profile'	=> $this->plugin["AuthorURI"],

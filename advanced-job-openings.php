@@ -6,16 +6,16 @@
  * @link      https://futurewordpress.com
  * @copyright 2022-2025 Future Wordpress
  *
- *
  * Plugin Name: Advanced Job Opening
- * Plugin URI: https://futurewordpress.com/wordpress/
+ * Plugin URI: https://github.com/mahmudremal/advanced-job-openings/
  * Author: Future Wordpress
  * Author URI: https://futurewordpress.com/
- * Version: 1.0.2
+ * Version: v1.0.0
  * Description: A simple and lightweight plugin for wordpress Job Listing and Job opening Platform.
  * Text Domain: fwp-ajo
  * Domain Path: /languages
  */
+
 defined( 'FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN' ) || define( 'FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN', 'fwp-ajo' );
 
 defined( 'FUTUREWORDPRESS_PROJECT__FILE__' ) || define( 'FUTUREWORDPRESS_PROJECT__FILE__', __FILE__ );

@@ -19,8 +19,9 @@ class Loadmore_Single {
 	}
 
 	protected function setup_hooks() {
-		add_filter( 'futurewordpress/project/rendercompany', [ $this, 'companyRender' ], 10, 2 );
-		add_filter( 'futurewordpress/project/company/single/header', [ $this, 'companyHeader' ], 10, 2 );
+		add_filter( 'futurewordpress/project/rendercompany', [ $this, 'companyRender' ], 1, 2 );
+		add_filter( 'futurewordpress/project/company/single/header', [ $this, 'companyHeader' ], 1, 2 );
+
 	}
   public function companyRender( $html, $post ) {
     return apply_filters( 'futurewordpress/project/renderpost', [], $post );
@@ -73,4 +74,5 @@ class Loadmore_Single {
 		<?php
 		return ob_get_clean();
 	}
+
 }

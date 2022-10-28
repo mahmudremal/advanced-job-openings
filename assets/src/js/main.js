@@ -89,6 +89,10 @@
             var name = ( this.dataset.name ) ? this.dataset.name : '';
             if( id && confirm( thisClass.confirmDeleteCV ) ) {
               var data = { action: 'fwp-candidate-delete-cv-action', id: id, _nonce: thisClass.ajaxNonce };
+              if( this.dataset.isCompany ) {
+                data.isCompany = this.dataset.isCompany;
+                data.action = 'fwp-company-delete-application-action';
+              }
               console.log( data );
               $.ajax( {
                 url: thisClass.ajaxUrl,

@@ -82,53 +82,42 @@ $isCompany = ( isset( $args[ 'dashboard' ] ) && $args[ 'dashboard' ] == 'company
 <?php endif; ?>
 <?php if( is_FwpActive( 'dashboard_leatest_applications' ) ) : ?>
   <div class="col-xl-8">
-    <?php do_shortcode( '[job-latest-applications]' ); ?>
+    <?php // do_shortcode( '[job-latest-applications]' ); ?>
   </div>
 <?php endif; ?>
 <div class="col-xl-4">
   <div class="recent_job_activity">
-    <h4 class="title">Activity</h4>
-    <div class="grid">
-      <div class="color_bg float-left"></div>
-      <ul>
-        <li><span>Dobrick </span>published an article</li>
-        <li>2 hours ago</li>
-      </ul>
-    </div>
-    <div class="grid">
-      <div class="color_bg two float-left"></div>
-      <ul>
-        <li><span>Stella </span>created an event</li>
-        <li>2 hours ago</li>
-      </ul>
-    </div>
-    <div class="grid">
-      <div class="color_bg three float-left"></div>
-      <ul>
-        <li><span>Peter </span>submitted the reports</li>
-        <li>2 hours ago</li>
-      </ul>
-    </div>
-    <div class="grid">
-      <div class="color_bg four float-left"></div>
-      <ul>
-        <li><span>Nateila </span>updated the docs</li>
-        <li>2 hours ago</li>
-      </ul>
-    </div>
-    <div class="grid">
-      <div class="color_bg float-left"></div>
-      <ul>
-        <li><span>Dobrick </span>published an article</li>
-        <li>2 hours ago</li>
-      </ul>
-    </div>
-    <div class="grid mb0">
-      <div class="color_bg two float-left"></div>
-      <ul>
-        <li><span>Stella </span>created an event</li>
-        <li>2 hours ago</li>
-      </ul>
-    </div>
+  <h4 class="title"><?php esc_html_e( 'Activity', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></h4>
+    <?php
+      $activities = apply_filters( 'futurewordpress/project/job/candidate/activity', [] );
+      // print_r( $activities );
+      if( count( $activities ) >= 1 ) :
+      foreach( $activities as $activity ) : ?>
+        <div class="grid">
+          <div class="color_bg float-left"></div>
+          <ul>
+            <li>
+              <?php
+                echo isset( $activity->applyID ) ? sprintf(
+                  __( '%s applied on %s', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ),
+                  wp_kses_post( '<span>' . __( 'You', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ) . '</span>' ),
+                  wp_kses_post( '<a class="font-weight-bold" href="' . site_url( '/dashboard/candidate/apply-' . $activity->applyID . '/' ) . '">' . substr( $activity->jobTitle, 0, 15 ) . '..' . '</a>' )
+                ) : sprintf(
+                  __( '%s liked %s', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ),
+                  wp_kses_post( '<span>' . __( 'You', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ) . '</span>' ),
+                  wp_kses_post( '<a class="font-weight-bold" href="#">' . substr( $activity->jobTitle, 0, 15 ) . '..' . '</a>' )
+                );
+              ?>
+            </li>
+            <li><?php echo esc_html( apply_filters( 'futurewordpress/project/job/timeString', $activity->createdTime, false ) ); ?></li>
+          </ul>
+        </div>
+        <?php
+      endforeach;
+      else :
+        ?>
+        <img class="error svg" src="<?php echo esc_url( FUTUREWORDPRESS_PROJECT_BUILD_URI . '/icons/nill-frawn.svg' ); ?>" alt="" />
+        <?php
+    endif; ?>
   </div>
 </div>

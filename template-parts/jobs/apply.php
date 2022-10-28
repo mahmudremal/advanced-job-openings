@@ -5,6 +5,9 @@
  */
 global $errorHappens;
 $errorHappens = false;$apply = get_query_var( 'apply' );$post_id = get_query_var( 'post_id' );
+
+// auth_redirect();
+
 if( $apply != '' && $post_id != '' && is_user_logged_in() ) {
   if( $apply == 'favourite' ) {
     if( apply_filters( 'futurewordpress/project/job/toggle/favourite', $post_id ) ) {
@@ -24,6 +27,8 @@ if( $apply != '' && $post_id != '' && is_user_logged_in() ) {
     $errorHappens = __( 'Your request is not properly filterout for execution. maybe you\'ve visisted a bromeken URI.', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN );
   }
 } else {
+  // $current_url = home_url( add_query_arg( [], $GLOBALS['wp']->request ) );
+  wp_redirect( wp_login_url(  ) );
   $errorHappens = __( 'Maybe you\'re not logged it or your URL is not valid.', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN );
 }
 if( $errorHappens ) {

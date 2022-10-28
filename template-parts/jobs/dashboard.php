@@ -3,6 +3,8 @@
  * Job Dashboard path file.
  * @package Divi-child
  */
+is_user_logged_in() || auth_redirect();
+
 $args = [
   'page' => get_query_var( 'dashpage' ),
   'dashboard' => get_query_var( 'dashboard' )

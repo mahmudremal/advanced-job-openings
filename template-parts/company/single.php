@@ -18,8 +18,7 @@
 	do_action( 'futurewordpress/project/company/single/header/after', $companyInfo );
 
   ?>
-  <pre style="display: none;"><?php print_r( [ FUTUREWORDPRESS_PROJECT_OPTIONS, $companyInfo ] ); ?></pre>
-  
+  <!-- <pre style="display: none;"><?php // print_r( [ FUTUREWORDPRESS_PROJECT_OPTIONS, $companyInfo ] ); ?></pre> -->
 	
 	<!-- Company Info Details-->
 	<section class="employe_details">
@@ -213,18 +212,18 @@
 								?>
 								<form action="" method="post">
 									<div class="form-group">
-											<input type="text" class="form-control" id="fwp-contact-company-name" placeholder="<?php echo esc_attr( __( 'Your Name', 'domain' ) ); ?>" name="fwp-contact-company-form[name]" value="<?php echo esc_attr( $userInfo->user_nicename ); ?>">
+											<input type="text" class="form-control" id="fwp-contact-company-name" placeholder="<?php echo esc_attr( __( 'Your Name', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ) ); ?>" name="fwp-contact-company-form[name]" value="<?php echo esc_attr( $userInfo->user_nicename ); ?>">
 									</div>
 										<div class="form-group">
-											<input type="email" class="form-control" id="fwp-contact-company-email" placeholder="<?php echo esc_attr( __( 'Your Email', 'domain' ) ); ?>" name="fwp-contact-company-form[email]" value="<?php echo esc_attr( $userInfo->user_email ); ?>">
+											<input type="email" class="form-control" id="fwp-contact-company-email" placeholder="<?php echo esc_attr( __( 'Your Email', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ) ); ?>" name="fwp-contact-company-form[email]" value="<?php echo esc_attr( $userInfo->user_email ); ?>">
 										</div>
 									<div class="form-group">
-											<input type="text" class="form-control" id="fwp-contact-company-subject" placeholder="<?php echo esc_attr( __( 'Subject', 'domain' ) ); ?>" name="fwp-contact-company-form[subject]">
+											<input type="text" class="form-control" id="fwp-contact-company-subject" placeholder="<?php echo esc_attr( __( 'Subject', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ) ); ?>" name="fwp-contact-company-form[subject]">
 									</div>
 									<div class="form-group">
-											<textarea class="form-control" id="fwp-contact-company-message" rows="5" placeholder="<?php echo esc_attr( __( 'Message', 'domain' ) ); ?>" name="fwp-contact-company-form[message]"></textarea>
+											<textarea class="form-control" id="fwp-contact-company-message" rows="5" placeholder="<?php echo esc_attr( __( 'Message', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ) ); ?>" name="fwp-contact-company-form[message]"></textarea>
 									</div>
-										<button type="submit" class="btn btn-block btn-thm"><?php esc_html_e( 'Send Now', 'domain' ); ?> <span class="flaticon-right-arrow"></span></button>
+										<button type="submit" class="btn btn-block btn-thm"><?php esc_html_e( 'Send Now', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?> <span class="flaticon-right-arrow"></span></button>
 								</form>
 							</div>
 						<?php endif; ?>

@@ -27,7 +27,6 @@
     'map-zoom' => '',
   ] );
 ?>
-  <pre style="display: none;"><?php print_r( $getCompany ); ?></pre>
   <form class="my_profile_form_area employer_profile" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" enctype="multipart/form-data">
     <input type="hidden" name="fwp-company-profile-action" value="<?php echo esc_attr( $is_edit ? 'edit' : 'new' ); ?>">
     <input type="hidden" name="action" value="fwp-company-profile-edit">

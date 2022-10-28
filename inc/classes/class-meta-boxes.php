@@ -46,7 +46,6 @@ class Meta_Boxes {
 		{"title":"Job Information","description":"Your Job information field, that might be necessary or required.","prefix":"fwp_","domain":"fwp-ajo","class_name":"fwp-job_openings-jobinfo","post-type":["job_openings"],"context":"advanced","priority":"core","cpt":"job_openings","fields":[
 			{"type":"select","label":"Posted by","default":"1","options":"0: Select Posted by","id":"fwp_jobs-postedby","dynamic":["alluser"]},
 			{"type":"select","label":"Company","default":"1","options":"0: Select Company","id":"fwp_jobs-company","dynamic":["company"]},
-			{"type":"text","label":"Location","id":"fwp_jobs-location"},
 			{"type":"editor","label":"Description","id":"fwp_jobs-description"},
       {"type":"editor","label":"Responsibilities","id":"fwp_jobs-responsibilities"},
       {"type":"editor","label":"Experience","id":"fwp_jobs-experience"},
@@ -55,11 +54,14 @@ class Meta_Boxes {
 			]
     },
 		{"title":"Job Meta","description":"Your Job information field, that might be necessary or required.","prefix":"fwp_","domain":"fwp-ajo","class_name":"fwp-job_openings-jobmeta","post-type":["job_openings"],"context":"side","priority":"core","cpt":"job_openings","fields":[
+      {"type":"text","label":"Internal ID","id":"fwp_jobs-internalid","description":"Internal ID, should be an Unique ID.","placeholder": "Job Internal ID","dynamic":["jobunique"]},
       {"type":"text","label":"Salary min","id":"fwp_jobs-salary","description":"Minimum salary amount without any seperator or comma."},
       {"type":"text","label":"Salary max","id":"fwp_jobs-salaryto","description":"Maximum salary possibility without any comma or any saperator. Leave it blank if your salary is fixed."},
       {"type":"select","label":"Salary Round","default":"1","options":"0: Select Round\r\nhourly: Hourly\r\ndaily: Daily\r\nweekly: Weekly\r\nmonthly: Monthly\r\nyearly: Yearly","id":"fwp_jobs-salaryround"},
       {"type":"select","label":"Currency","default":"1","options":"0: Select Currency","id":"fwp_jobs-currency","dynamic":["currency"]},
       {"type":"radio","label":"Gender","default":"both","options":"male: Male\r\nfemale: Female\r\nboth: Both","id":"fwp_jobs-gender"},
+			{"type":"text","label":"Location","id":"fwp_jobs-location"},
+			{"type":"text","label":"Job State","id":"fwp_jobs-state"},
       {"type":"text","label":"Career Level","id":"fwp_jobs-careerlevel","description":"Career Level in common and short hand.","placeholder": "EG. Executive"},
       {"type":"text","label":"Industry","id":"fwp_jobs-industry","description":"Industry in common and short hand.","placeholder": "EG. Management"},
       {"type":"text","label":"Experience","id":"fwp_jobs-experienceshort","description":"Experience in years or as short as possible."},
@@ -84,6 +86,7 @@ class Meta_Boxes {
 		$this->configs = json_decode( $this->configs, true );
 		$this->prepareConfig();
 		$this->process_cpts();
+		add_action( 'admin_init', [ $this, 'admin_init' ], 2 );
     
     /**
      * add_action() is a function where all plugins and themes functions stored and called according to an order.
@@ -128,7 +131,7 @@ class Meta_Boxes {
           } else if( in_array( 'max', $field[ 'dynamic' ] ) ) {
             $config[ 'fields' ][ $f ][ 'max' ] = date( 'Y-m-d', strtotime( '+2 years', strtotime( time() ) ) );
           } else if( in_array( 'jobunique', $field[ 'dynamic' ] ) ) {
-						$config[ 'fields' ][ $f ][ 'default' ] = wp_unique_id( 'job' );
+						$config[ 'fields' ][ $f ][ 'default' ] = ( is_FwpActive( 'job_internal_id_default' ) ) ? uniqid( get_fwp_option( 'job_interna_id_prefix', 'job' ) ) : '';
           } else if( in_array( 'currency', $field[ 'dynamic' ] ) ) {
             // FUTUREWORDPRESS_PROJECT_OPTIONS[ 'currencies' ]
 						$getCurrency = apply_filters( 'futurewordpress/project/job/currencies', [ 'USD', 'EUR' ] );
@@ -184,6 +187,140 @@ class Meta_Boxes {
 				);
 			}
 		}
+	}
+	public function admin_init() {
+		add_meta_box( 'fwp_job_vanues-group', __( 'Job dates and Locations', 'domain' ), [ $this, 'repeater' ], 'job_openings', 'normal', 'default');
+		add_action('save_post', [ $this, 'save_repeater' ] );
+	}
+	public function repeater() {
+    global $post;
+    $fwp_job_vanues_group = get_post_meta($post->ID, 'fwp_jobs-vanues', true);
+		wp_nonce_field( 'gpm_repeatable_meta_box_nonce', 'gpm_repeatable_meta_box_nonce' );
+    ?>
+    <script type="text/javascript">
+			jQuery(document).ready(function( $ ){
+				$( '#add-row' ).on('click', function() {
+					var row = $( '.empty-row.screen-reader-text' ).clone(true);
+					row.removeClass( 'empty-row screen-reader-text' );
+					row.insertBefore( '#repeatable-fieldset-one tbody>tr:last' );
+					return false;
+				});
+				$( '.remove-row' ).on('click', function() {
+					$(this).parents('tr').remove();
+					return false;
+				});
+			});
+		</script>
+		<table id="repeatable-fieldset-one" width="100%">
+			<tbody>
+				<?php
+				// $fwp_job_vanues_group = 
+				$jobLocations = get_terms( [
+					'taxonomy'		=> 'job_locations',
+					'hide_empty'	=> false
+				] );
+				
+				if ( $fwp_job_vanues_group ) :
+					foreach ( $fwp_job_vanues_group as $field ) {
+						?>
+						<tr>
+							<td class="job-row">
+								<input class="jobvanuedate" type="date" placeholder="<?php esc_attr_e( 'Date', 'domain' ); ?>" title="<?php esc_attr_e( 'Date', 'domain' ); ?>" name="JobDate[]" value="<?php if($field['JobDate'] != '') echo esc_attr( $field['JobDate'] ); ?>" />
+								<select class="jobvanuelocation" name="JobLocation[]">
+									<?php foreach( $jobLocations as $location ) : ?>
+										<option value="<?php echo esc_attr( $location->term_id ); ?>" <?php echo esc_attr( ( $field['JobLocation'] == $location->term_id ) ? 'checked' : '' ); ?>><?php echo esc_html( $location->name ); ?></option>
+									<?php endforeach; ?>
+								</select>
+								<textarea class="fwp-regular-text jobvanuerequirments" placeholder="Description" cols="55" rows="5" name="JobRequirments[]"><?php echo esc_attr( $field['JobRequirments'] ); ?></textarea>
+							</td>
+							<td width="15%"><a class="button remove-row" href="#1">Remove</a></td>
+						</tr>
+						<?php
+					}
+				else :
+				// show a blank one
+				?>
+				<tr>
+					<td class="job-row">
+						<input class="jobvanuedate" type="date" placeholder="<?php esc_attr_e( 'Date', 'domain' ); ?>" title="<?php esc_attr_e( 'Date', 'domain' ); ?>" name="JobDate[]" />
+						<select class="jobvanuelocation" name="JobLocation[]">
+							<?php foreach( $jobLocations as $location ) : ?>
+								<option value="<?php echo esc_attr( $location->term_id ); ?>"><?php echo esc_html( $location->name ); ?></option>
+							<?php endforeach; ?>
+						</select>
+						<textarea class="fwp-regular-text jobvanuerequirments" placeholder="<?php esc_attr_e( 'Requirments', 'domain' ); ?>" name="JobRequirments[]" cols="55" rows="5"></textarea>
+					</td>
+					<td><a class="button cmb-remove-row-button button-disabled" href="#"><?php esc_html_e( 'Remove', 'domain' ); ?></a></td>
+				</tr>
+				<?php endif; ?>
+
+				<!-- empty hidden one for jQuery -->
+				<tr class="empty-row screen-reader-text">
+				<td class="job-row">
+						<input class="jobvanuedate" type="date" placeholder="<?php esc_attr_e( 'Date', 'domain' ); ?>" title="<?php esc_attr_e( 'Date', 'domain' ); ?>" name="JobDate[]" />
+						<select class="jobvanuelocation" name="JobLocation[]">
+							<?php foreach( $jobLocations as $location ) : ?>
+								<option value="<?php echo esc_attr( $location->term_id ); ?>"><?php echo esc_html( $location->name ); ?></option>
+							<?php endforeach; ?>
+						</select>
+						<textarea class="fwp-regular-text jobvanuerequirments" placeholder="<?php esc_attr_e( 'Requirments', 'domain' ); ?>" name="JobRequirments[]" cols="55" rows="5"></textarea>
+					</td>
+					<td><a class="button remove-row" href="#"><?php esc_html_e( 'Remove', 'domain' ); ?></a></td>
+				</tr>
+			</tbody>
+		</table>
+		<p><a id="add-row" class="button" href="#"><?php esc_html_e( 'Add another', 'domain' ); ?></a></p>
+		<style>
+			.job-row {
+				display: flex;
+				flex-wrap: wrap;
+			}
+			.jobvanuedate, .jobvanuelocation {
+				width: 49%;
+				margin: auto;
+				margin-bottom: 20px;
+			}
+			@media screen and (max-width: 600px) {
+				.jobvanuedate, .jobvanuelocation {
+					width: 100%;
+				}
+			}
+		</style>
+		<?php
+	}
+	public function save_repeater( $post_id ) {
+		if( ! isset( $_POST['gpm_repeatable_meta_box_nonce'] ) || ! wp_verify_nonce( $_POST['gpm_repeatable_meta_box_nonce'], 'gpm_repeatable_meta_box_nonce' ) ) {return;}
+    if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {return;}
+    if( ! current_user_can( 'edit_post', $post_id ) ) {return;}
+
+		$old = get_post_meta($post_id, 'fwp_jobs-vanues', true);
+    $new = [];
+    $JobDate = $_POST['JobDate'];
+    $JobLocation = $_POST['JobLocation'];
+    $JobRequirments = $_POST['JobRequirments'];
+		$count = count( $JobLocation );
+		// for( $i = 0; $i < $count; $i++ ) {
+		// 	if( $JobLocation[ $i ] != '' ) {
+		// 		$new[ $i ]['JobDate'] = stripslashes( strip_tags( $JobDate[ $i ] ) );
+		// 		$new[ $i ]['JobLocation'] = stripslashes( strip_tags( $JobLocation[ $i ] ) );
+		// 		$new[ $i ]['JobRequirments'] = stripslashes( $JobRequirments[ $i ] ); // and however you want to sanitize
+		// 	}
+    // }
+		foreach( $JobDate as $i => $job ) {
+			if( $JobDate[ $i ] != '' ) {
+				$new[ $i ]['JobDate'] = stripslashes( strip_tags( $JobDate[ $i ] ) );
+				$new[ $i ]['JobLocation'] = stripslashes( strip_tags( $JobLocation[ $i ] ) );
+				$new[ $i ]['JobRequirments'] = stripslashes( $JobRequirments[ $i ] ); // and however you want to sanitize
+			}
+		}
+    if( ! empty( $new ) && $new != $old ) {
+			update_post_meta( $post_id, 'fwp_jobs-vanues', $new );
+    } elseif( empty( $new ) && $old ) {
+			delete_post_meta( $post_id, 'fwp_jobs-vanues', $old );
+		}
+
+		// print_r( [ $_POST, get_post_meta( $post_id ) ] );wp_die();
+
 	}
 
 	public function admin_enqueue_scripts() {

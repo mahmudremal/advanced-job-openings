@@ -33,8 +33,8 @@
                 <td></td>
                 <td>
                   <ul class="view_edit_delete_list">
-                    <li class="list-inline-item"><a class="edit-cv-fwp" href="javascript:void(0);" data-id="<?php echo esc_attr( $cv->ID ); ?>" data-name="<?php echo esc_attr( $cv->cv_name ); ?>" data-href="<?php echo esc_url( $cv->cv_edit ); ?>" data-toggle="tooltip" data-placement="top" title="<?php esc_attr_e( 'Edit', 'domain' ); ?>"><span class="flaticon-edit"></span></a></li>
-                    <li class="list-inline-item"><a class="delete-cv-fwp" href="javascript:void(0);" data-id="<?php echo esc_attr( $cv->ID ); ?>" data-name="<?php echo esc_attr( $cv->cv_name ); ?>" data-href="<?php echo esc_url( $cv->cv_delete ); ?>" data-toggle="tooltip" data-placement="top" title="<?php esc_attr_e( 'Delete', 'domain' ); ?>"><span class="flaticon-rubbish-bin"></span></a></li>
+                    <li class="list-inline-item"><a class="edit-cv-fwp" href="javascript:void(0);" data-id="<?php echo esc_attr( $cv->ID ); ?>" data-name="<?php echo esc_attr( $cv->cv_name ); ?>" data-href="<?php echo esc_url( $cv->cv_edit ); ?>" data-toggle="tooltip" data-placement="top" title="<?php esc_attr_e( 'Edit', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?>"><span class="flaticon-edit"></span></a></li>
+                    <li class="list-inline-item"><a class="delete-cv-fwp" href="javascript:void(0);" data-id="<?php echo esc_attr( $cv->ID ); ?>" data-name="<?php echo esc_attr( $cv->cv_name ); ?>" data-href="<?php echo esc_url( $cv->cv_delete ); ?>" data-toggle="tooltip" data-placement="top" title="<?php esc_attr_e( 'Delete', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?>"><span class="flaticon-rubbish-bin"></span></a></li>
                   </ul>
                 </td>
               </tr>
@@ -46,15 +46,15 @@
   </div>
   <div class="col-lg-12 col-xl-12">
     <div class="candidate_resume_uploader">
-      <p class="form_title"><?php esc_html_e( 'Curriculum Vitae', 'domain' ); ?></p>
+      <p class="form_title"><?php esc_html_e( 'Curriculum Vitae', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></p>
       <form class="form-inline" name="fwp_form_CV_ADD">
-        <input class="upload-path" placeholder="<?php esc_attr_e( 'Design CV', 'domain' ); ?>" name="name" required/>
+        <input class="upload-path" placeholder="<?php esc_attr_e( 'Design CV', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?>" name="name" required/>
         <label class="upload">
             <input type="file" accept=".pdf,.doc,.docx" name="file"/>
-            <p><span class="flaticon-download"></span> <?php esc_html_e( 'Upload CV', 'domain' ); ?></p>
+            <p><span class="flaticon-download"></span> <?php esc_html_e( 'Upload CV', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></p>
         </label>
       </form>
-        <small class="form-text text-muted"><?php esc_html_e( 'Suitable files are .doc,.docx,.pdf.', 'domain' ); ?></small>
+        <small class="form-text text-muted"><?php esc_html_e( 'Suitable files are .doc,.docx,.pdf.', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></small>
     </div>
   </div>
 </div>

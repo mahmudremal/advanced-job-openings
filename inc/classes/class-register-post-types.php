@@ -1149,6 +1149,7 @@ class Register_Post_Types {
     }
     $terms = wp_get_post_terms( $post->ID, 'job_types', [ 'fields' => 'names' ] );if( ! $terms ) {$terms = [];}$args[ 'terms' ] = $terms;$args[ 'types' ] = $terms;
     $categories = wp_get_post_terms( $post->ID, 'job_categories', [ 'fields' => 'names' ] );if( ! $categories ) {$categories = [];}$args[ 'categories' ] = $categories;
+    $locations = wp_get_post_terms( $post->ID, 'job_locations', [ 'fields' => 'names' ] );if( ! $locations ) {$locations = [];}$args[ 'locations' ] = $locations;
     $args[ 'meta' ] = $newMeta;
     return $args;
   }

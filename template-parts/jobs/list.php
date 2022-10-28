@@ -38,7 +38,7 @@ if( $presentStyle == 1 ) :
                                 <?php the_title( '<span>', '</span>' ); ?>
                               </div>
                               <?php if( isset( $jobPost[ 'meta' ][ 'jobs' ][ 'remoteposition' ] ) && $jobPost[ 'meta' ][ 'jobs' ][ 'remoteposition' ] ) : ?>
-                                <span class="bg-green-500 rounded-full uppercase text-white text-md px-4 py-1 font-bold shadow-xl"> <?php esc_html_e( 'Remote', 'domain' ); ?> </span>
+                                <span class="bg-green-500 rounded-full uppercase text-white text-md px-4 py-1 font-bold shadow-xl"> <?php esc_html_e( 'Remote', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?> </span>
                               <?php endif; ?>
                             </div>
                             <div class="text-lg text-gray-500 flex space-x-1 items-center">
@@ -51,7 +51,7 @@ if( $presentStyle == 1 ) :
                             </div>
                             <div>
                               <div class="mt-5">
-                                <a href="<?php the_permalink(); ?>" class="mr-2 my-1 uppercase tracking-wider text-indigo-600 border-indigo-600 hover:bg-indigo-600 hover:text-white border text-md font-semibold rounded py-2 px-4 transition transform duration-500 cursor-pointer" target="_self"><?php esc_html_e( 'Apply', 'domain' ); ?></a>
+                                <a href="<?php the_permalink(); ?>" class="mr-2 my-1 uppercase tracking-wider text-indigo-600 border-indigo-600 hover:bg-indigo-600 hover:text-white border text-md font-semibold rounded py-2 px-4 transition transform duration-500 cursor-pointer" target="_self"><?php esc_html_e( 'Apply', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></a>
                               </div>
                             </div>
                           </div>
@@ -281,22 +281,22 @@ if( $presentStyle == 1 ) :
       ],
 
       'sources' => [
-          [
+        [
           'src' => 'bTqVqk7FSmY',
           'type' => 'video/mp4',
           'size' => 720,
           'provider' => 'youtube'
-          ]
+        ]
       ],
 
       'tracks' => [
-          [
-            'kind' => 'captions',
+        [
+          'kind' => 'captions',
           'label' => 'English',
           'srclang' => 'en',
           'src' => '/path/to/captions.en.vtt',
           'default' => true
-          ]
+        ]
       ]
     ] ); ?>;
   </script>

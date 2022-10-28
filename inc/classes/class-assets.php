@@ -38,12 +38,14 @@ class Assets {
 		wp_register_style( 'main-css', FUTUREWORDPRESS_PROJECT_BUILD_CSS_URI . '/main.css', ['bootstrap-css'], $this->filemtime( FUTUREWORDPRESS_PROJECT_BUILD_CSS_DIR_PATH . '/main.css' ), 'all' );
 		wp_register_style( 'job-opening-frontend-base', FUTUREWORDPRESS_PROJECT_BUILD_LIB_URI . '/css/frontend-base.css', ['bootstrap-css'], $this->filemtime( FUTUREWORDPRESS_PROJECT_BUILD_LIB_PATH . '/css/frontend-base.css' ), 'all' );
 		wp_register_style( 'select2', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css', [], false, 'all' );
+		wp_register_style( 'font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css', [], false, 'all' );
 
 		// Enqueue Styles.
 		// wp_enqueue_style( 'bootstrap-css' );
 		// wp_enqueue_style( 'slick-css' );
 		// wp_enqueue_style( 'slick-theme-css' );
 		// wp_enqueue_style( 'main-css' );
+		wp_enqueue_style( 'font-awesome' );
 		wp_enqueue_style( 'job-opening-frontend-base' );
 
 	}

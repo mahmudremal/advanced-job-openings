@@ -30,11 +30,15 @@ class Futurewordpress_Database {
     add_filter( 'futurewordpress/project/job/cv/delete', [ $this, 'cvDelete' ], 10, 1 );
 
     add_filter( 'futurewordpress/project/job/apply/get', [ $this, 'applicationGet' ], 10, 1 );
+    add_filter( 'futurewordpress/project/job/apply/total', [ $this, 'applicationCount' ], 10, 1 );
+    add_filter( 'futurewordpress/project/job/apply/range', [ $this, 'appliedRange' ], 10, 1 );
     add_filter( 'futurewordpress/project/job/apply/add', [ $this, 'applicationAdd' ], 10, 1 );
     add_filter( 'futurewordpress/project/job/apply/edit', [ $this, 'applicationEdit' ], 10, 1 );
     add_filter( 'futurewordpress/project/job/apply/delete', [ $this, 'applicationDelete' ], 10, 1 );
 
     add_filter( 'futurewordpress/project/job/apply/company', [ $this, 'applyCompanyGet' ], 10, 1 );
+    add_filter( 'futurewordpress/project/job/company/activity', [ $this, 'companyActivity' ], 10, 1 );
+    add_filter( 'futurewordpress/project/job/candidate/activity', [ $this, 'candidateActivity' ], 10, 1 );
 	}
   public function toggleFavourite( $post_id ) {
     if( $this->isFavourite( $post_id ) ) {
@@ -168,9 +172,9 @@ class Futurewordpress_Database {
     global $wpdb;
     $wpdb->query(
       $wpdb->prepare(
-         "DELETE FROM {$wpdb->prefix}fwp_job_cv WHERE ID = %d AND user_id = %d;",
-         $args[ 'id' ],
-         get_current_user_id()
+          "DELETE FROM {$wpdb->prefix}fwp_job_cv WHERE ID = %d AND user_id = %d;",
+          $args[ 'id' ],
+          get_current_user_id()
       )
     );
     return true;
@@ -193,10 +197,16 @@ class Futurewordpress_Database {
   }
   public function applyCompanyGet( $args ) {
     global $wpdb;
+    $sql = "SELECT apply.* FROM {$wpdb->prefix}fwp_job_application apply LEFT JOIN {$wpdb->posts} post ON post.ID = apply.job_id WHERE post.post_type = '%s' AND post.post_author = %d";
+    $sqlArgs = [ FUTUREWORDPRESS_PROJECT_CPT_JOB_OPENINGS, get_current_user_id() ];
+    if( isset( $args[ 'id' ] ) ) {
+      $sql .= " AND apply.ID = %d";
+      $sqlArgs[] = $args[ 'id' ];
+    }
     $result = $wpdb->get_results(
       $wpdb->prepare(
-        "SELECT apply.* FROM {$wpdb->prefix}fwp_job_application apply LEFT JOIN {$wpdb->posts} post ON post.ID = apply.job_id WHERE post.post_type = '%s' AND post.post_author = %d",
-        FUTUREWORDPRESS_PROJECT_CPT_JOB_OPENINGS, get_current_user_id()
+        $sql,
+        ...$sqlArgs
       )
     );
     return $result;
@@ -247,14 +257,116 @@ class Futurewordpress_Database {
   }
   public function applicationDelete( $args ) {
     global $wpdb;
-    $wpdb->query(
+    
+
+    if( isset( $args[ 'isCompany' ] ) ) {
+      $apply = $wpdb->get_row(
+        $wpdb->prepare(
+           "SELECT apply.ID, apply.job_id FROM {$wpdb->prefix}fwp_job_application apply INNER JOIN {$wpdb->posts} posts WHERE apply.ID = %d AND posts.ID = apply.job_id AND posts.post_author = %d;",
+           $args[ 'id' ],
+           get_current_user_id()
+        )
+      );
+      // wp_die( print_r( $apply ) );
+      if( $apply && isset( $apply->ID ) ) {
+        $wpdb->query(
+          $wpdb->prepare(
+             "DELETE FROM {$wpdb->prefix}fwp_job_application WHERE ID = %d AND job_id = %d;",
+             $apply->ID,
+             $apply->job_id
+          )
+        );
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      $wpdb->query(
+        $wpdb->prepare(
+           "DELETE FROM {$wpdb->prefix}fwp_job_application WHERE ID = %d AND user_id = %d;",
+           $args[ 'id' ],
+           get_current_user_id()
+        )
+      );
+      return true;
+    }
+    return false;
+  }
+
+  public function applicationCount( $args ) {
+    global $wpdb;
+    $sqlQuery = "SELECT COUNT(*) AS total FROM {$wpdb->prefix}fwp_job_application WHERE 1";
+    if( isset( $args[ 'id' ] ) ) {$sqlQuery .= " AND ID = " . $args[ 'id' ];}
+    if( isset( $args[ 'user' ] ) ) {$sqlQuery .= " AND user_id = " . $args[ 'user' ];}
+    if( isset( $args[ 'cv' ] ) ) {$sqlQuery .= " AND cv_id = " . $args[ 'cv' ];}
+    if( isset( $args[ 'job' ] ) ) {$sqlQuery .= " AND job_id = " . $args[ 'job' ];}
+    if( isset( $args[ 'order' ] ) ) {$sqlQuery .= " ORDER BY ID " . $args[ 'order' ];}
+    if( isset( $args[ 'limit' ] ) ) {$sqlQuery .= " LIMIT " . $args[ 'limit' ];}
+    $result = $wpdb->get_row(
+      $sqlQuery
+    );
+    return $result;
+  }
+  public function appliedRange( $args ) {
+    $applied = $this->applicationCount( $args );
+    $applied = $applied->total;
+    if( $applied >= 0 && $applied < 20 ) {return __( '0-20', 'domain' );}
+    elseif( $applied >= 20 && $applied < 50 ) {return __( '20-50', 'domain' );}
+    elseif( $applied >= 50 && $applied < 200 ) {return __( '50-200', 'domain' );}
+    elseif( $applied >= 200 && $applied < 500 ) {return __( '200-500', 'domain' );}
+    elseif( $applied >= 500 && $applied < 1000 ) {return __( '500-1000', 'domain' );}
+    else {return $applied->total;}
+  }
+
+  public function companyActivity( $args ) {
+    global $wpdb;
+    $apply = $wpdb->get_results(
       $wpdb->prepare(
-         "DELETE FROM {$wpdb->prefix}fwp_job_application WHERE ID = %d AND user_id = %d;",
-         $args[ 'id' ],
-         get_current_user_id()
+        "SELECT apply.ID AS applyID, apply.created_on AS createdTime, user.display_name AS userName, post.post_title as jobTitle FROM {$wpdb->prefix}fwp_job_application apply LEFT JOIN {$wpdb->posts} post ON post.ID = apply.job_id LEFT JOIN {$wpdb->users} user ON user.ID = apply.user_id WHERE post.post_type = %s AND post.post_author = %d ORDER BY apply.ID DESC LIMIT 6;",
+        FUTUREWORDPRESS_PROJECT_CPT_JOB_OPENINGS, get_current_user_id()
       )
     );
-    return true;
+    $activity = ( $apply && count( $apply ) >= 1 ) ? $apply : [];
+    $favourites = $wpdb->get_results(
+      $wpdb->prepare(
+        "SELECT fav.ID AS favID, user.display_name AS userName, post.post_title as jobTitle, fav.created_time AS createdTime FROM {$wpdb->prefix}fwp_job_favourite fav LEFT JOIN {$wpdb->posts} post ON post.ID = fav.post_id LEFT JOIN {$wpdb->users} user ON user.ID = fav.user_id WHERE post.post_type = %s AND post.post_author = %d ORDER BY fav.ID DESC LIMIT 6;",
+        FUTUREWORDPRESS_PROJECT_CPT_JOB_OPENINGS, get_current_user_id()
+      )
+    );
+    foreach( $favourites as $fav ) {
+      $activity[] = $fav;
+    }
+    // usort | ksort
+    usort( $activity, [ $this, 'usort' ] );
+    return $activity;
+  }
+  public function candidateActivity( $args ) {
+    global $wpdb;
+    $apply = $wpdb->get_results(
+      $wpdb->prepare(
+        "SELECT apply.ID AS applyID, apply.created_on AS createdTime, user.display_name AS userName, post.post_title as jobTitle FROM {$wpdb->prefix}fwp_job_application apply LEFT JOIN {$wpdb->posts} post ON post.ID = apply.job_id LEFT JOIN {$wpdb->users} user ON user.ID = apply.user_id WHERE post.post_type = %s AND apply.user_id = %d ORDER BY apply.ID DESC LIMIT 6;",
+        FUTUREWORDPRESS_PROJECT_CPT_JOB_OPENINGS, get_current_user_id()
+      )
+    );
+    $activity = ( $apply && count( $apply ) >= 1 ) ? $apply : [];
+    $favourites = $wpdb->get_results(
+      $wpdb->prepare(
+        "SELECT fav.ID AS favID, user.display_name AS userName, post.post_title as jobTitle, fav.created_time AS createdTime FROM {$wpdb->prefix}fwp_job_favourite fav LEFT JOIN {$wpdb->posts} post ON post.ID = fav.post_id LEFT JOIN {$wpdb->users} user ON user.ID = fav.user_id WHERE post.post_type = %s AND fav.user_id = %d ORDER BY fav.ID DESC LIMIT 6;",
+        FUTUREWORDPRESS_PROJECT_CPT_JOB_OPENINGS, get_current_user_id()
+      )
+    );
+    foreach( $favourites as $fav ) {
+      $activity[] = $fav;
+    }
+    // usort | ksort
+    usort( $activity, [ $this, 'usort' ] );
+    return $activity;
+  }
+  private function usort( $a, $b ) {
+    $aTime = new \DateTime( $a->createdTime );$bTime = new \DateTime( $b->createdTime );
+    // if( $aTime == $bTime ) {return 0;}
+    // return ( $aTime < $bTime ) ? -1 : 1;
+    return ( $aTime <=> $bTime  ? +1 : -1);
   }
 
 }
