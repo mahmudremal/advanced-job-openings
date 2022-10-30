@@ -15,7 +15,7 @@
  *
  * @return string
  */
-function get_the_post_custom_thumbnail( $post_id, $size = 'featured-thumbnail', $additional_attributes = [] ) {
+function fwp_get_the_post_custom_thumbnail( $post_id, $size = 'featured-thumbnail', $additional_attributes = [] ) {
 	$custom_thumbnail = '';
 
 	if ( null === $post_id ) {
@@ -47,8 +47,8 @@ function get_the_post_custom_thumbnail( $post_id, $size = 'featured-thumbnail', 
  * @param string $size                  The registered image size.
  * @param array  $additional_attributes Additional attributes.
  */
-function the_post_custom_thumbnail( $post_id, $size = 'featured-thumbnail', $additional_attributes = [] ) {
-	echo get_the_post_custom_thumbnail( $post_id, $size, $additional_attributes );
+function fwp_the_post_custom_thumbnail( $post_id, $size = 'featured-thumbnail', $additional_attributes = [] ) {
+	echo fwp_get_the_post_custom_thumbnail( $post_id, $size, $additional_attributes );
 }
 
 /**

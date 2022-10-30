@@ -382,7 +382,7 @@ class Meta_Boxes {
 		}
 	}
   
-  public function reedit_author( $data, $postarr, $unsanitized_postarr, $update ) {
+  public function reedit_author( $data, $postarr, $unsanitized_postarr, $update = false ) {
     /**
      * Is used to change post author of companies.
      * https://developer.wordpress.org/reference/hooks/wp_insert_post_data/
