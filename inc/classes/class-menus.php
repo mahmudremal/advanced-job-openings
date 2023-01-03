@@ -86,8 +86,8 @@ class Menus {
 				],
 				[
 					'id' 			=> 'requirments',
-					'label'			=> __( 'Requirments', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ),
-					'description'	=> __( 'Make requirments enabled to enable this fields on JOB', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ),
+					'label'			=> __( 'Requirements', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ),
+					'description'	=> __( 'Make requirements enabled to enable this fields on JOB', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ),
 					'type'			=> 'checkbox',
 					'default'		=> true
 				],
@@ -160,11 +160,11 @@ class Menus {
 				],
 				[
 					'id' 			=> 'requirments_txt',
-					'label'			=> __( 'Job Requirments' , FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ),
-					'description'	=> __( 'Title that should be replace with frontend single page Job Requirments title.', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ),
+					'label'			=> __( 'Job Requirements' , FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ),
+					'description'	=> __( 'Title that should be replace with frontend single page Job Requirements title.', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ),
 					'type'			=> 'text',
-					'default'		=> 'Job Requirments',
-					'placeholder'	=> __( 'Job Requirments field title here', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN )
+					'default'		=> 'Job Requirements',
+					'placeholder'	=> __( 'Job Requirements field title here', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN )
 				],
 				[
 					'id' 			=> 'offering_txt',
@@ -378,7 +378,7 @@ class Menus {
 				[
 					'id' 			=> 'experience',
 					'label'			=> __( 'Display Experience', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ),
-					'description'	=> __( 'Enable to display experience requirments in years.', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ),
+					'description'	=> __( 'Enable to display experience requirements in years.', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ),
 					'type'			=> 'checkbox',
 					'default'		=> true
 				],

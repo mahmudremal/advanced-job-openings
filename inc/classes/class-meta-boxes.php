@@ -49,7 +49,7 @@ class Meta_Boxes {
 			{"type":"editor","label":"Description","id":"fwp_jobs-description"},
       {"type":"editor","label":"Responsibilities","id":"fwp_jobs-responsibilities"},
       {"type":"editor","label":"Experience","id":"fwp_jobs-experience"},
-      {"type":"editor","label":"Requirments","id":"fwp_jobs-requirments"},
+      {"type":"editor","label":"Requirements","id":"fwp_jobs-requirments"},
       {"type":"editor","label":"Offering","id":"fwp_jobs-offering"}
 			]
     },
@@ -248,7 +248,7 @@ class Meta_Boxes {
 								<option value="<?php echo esc_attr( $location->term_id ); ?>"><?php echo esc_html( $location->name ); ?></option>
 							<?php endforeach; ?>
 						</select>
-						<textarea class="fwp-regular-text jobvanuerequirments" placeholder="<?php esc_attr_e( 'Requirments', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?>" name="JobRequirments[]" cols="55" rows="5"></textarea>
+						<textarea class="fwp-regular-text jobvanuerequirments" placeholder="<?php esc_attr_e( 'Requirements', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?>" name="JobRequirments[]" cols="55" rows="5"></textarea>
 					</td>
 					<td><a class="button cmb-remove-row-button button-disabled" href="#"><?php esc_html_e( 'Remove', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></a></td>
 				</tr>
@@ -274,6 +274,9 @@ class Meta_Boxes {
 			.job-row {
 				display: flex;
 				flex-wrap: wrap;
+                border-bottom: 1px solid #000;
+                padding-bottom: .625rem;
+                margin-bottom: .625rem;
 			}
 			.jobvanuedate, .jobvanuelocation {
 				width: 49%;

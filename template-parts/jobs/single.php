@@ -44,7 +44,7 @@
                 <?php endif; ?>
 
                 <?php if( is_FwpActive( 'requirments' ) && isset( $jobInfo[ 'meta' ][ 'jobs' ][ 'requirments' ] ) && ! empty( $jobInfo[ 'meta' ][ 'jobs' ][ 'requirments' ] ) ) : ?>
-                  <p class="fwb"><?php esc_html_e( get_fwp_option( 'requirments_txt', 'Requirments' ), FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></p>
+                  <p class="fwb"><?php esc_html_e( get_fwp_option( 'requirments_txt', 'Requirements' ), FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></p>
                   <?php echo wp_kses_post( $jobInfo[ 'meta' ][ 'jobs' ][ 'requirments' ] ); ?>
                 <?php endif; ?>
 
@@ -64,7 +64,7 @@
                           <tr>
                             <th scope="col"><?php esc_html_e( 'Date', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></th>
                             <th scope="col"><?php esc_html_e( 'Location', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></th>
-                            <th scope="col"><?php esc_html_e( 'Requirments', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></th>
+                            <th scope="col"><?php esc_html_e( 'Requirements', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></th>
                           </tr>
                       </thead>
                       <tbody>
@@ -75,7 +75,7 @@
                             <td><?php
                             $term = get_term( $location[ 'JobLocation' ], 'job_locations' );
                             echo esc_html( isset( $term->name ) ? $term->name : $location[ 'JobLocation' ] ); ?></td>
-                            <td><?php echo esc_html( $location[ 'JobRequirments' ] ); ?></td>
+                            <td><?php echo nl2br(esc_html( $location[ 'JobRequirments' ] )); ?></td>
                           </tr>
                         <?php endforeach; ?>
                       </tbody>

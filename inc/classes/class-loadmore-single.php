@@ -22,7 +22,6 @@ class Loadmore_Single {
 		add_filter( 'futurewordpress/project/rendercompany', [ $this, 'companyRender' ], 1, 2 );
 		add_filter( 'futurewordpress/project/company/single/header', [ $this, 'companyHeader' ], 1, 2 );
 		add_filter( 'futurewordpress/project/error/image', [ $this, 'errorImage' ], 1, 2 );
-
 	}
   public function companyRender( $html, $post ) {
     return apply_filters( 'futurewordpress/project/renderpost', [], $post );

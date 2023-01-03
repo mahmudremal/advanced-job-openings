@@ -816,7 +816,7 @@ class Post_Types {
 				}
 				break;
 			case 'job_posted':
-				echo '<strong>' . esc_html( wp_date( get_option( 'date_format' ), get_post_timestamp() ) ) . '</strong><span>';
+				echo '<strong>' . esc_html( wp_date( get_option( 'date_format' ), get_post_timestamp() ) ) . '</strong> <span>';
 				// translators: %s placeholder is the username of the user.
 				echo ( empty( $post->post_author ) ? esc_html__( 'by a guest', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ) : sprintf( esc_html__( 'by %s', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ), '<a href="' . esc_url( add_query_arg( 'author', $post->post_author ) ) . '">' . esc_html( get_the_author() ) . '</a>' ) ) . '</span>';
 				break;
@@ -830,7 +830,11 @@ class Post_Types {
 				break;
 			case 'job_status':
 				$jobVisibility = ( $this->job_status( $post ) ) ? __( 'Active', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ) : __( 'Inactive', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN );
-				echo '<span data-tip="' . esc_attr( $jobVisibility ) . '" class="tips status-' . esc_attr( $post->post_status ) . '">' . esc_html( $jobVisibility ) . '</span>';
+                if ($jobVisibility == 'Inactive') {
+                    echo '<span data-tip="' . esc_attr( $jobVisibility ) . '" class="tips"> - </span>';
+                } else {
+                    echo '<span data-tip="' . esc_attr( $jobVisibility ) . '" class="tips status-' . esc_attr( $post->post_status ) . '">' . esc_html( $jobVisibility ) . '</span>';
+                }
 				break;
 			case 'job_actions':
 				echo '<div class="actions">';

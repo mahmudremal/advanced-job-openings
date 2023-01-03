@@ -146,8 +146,8 @@
         <div class="login_form">
           <form action="#">
             <div class="heading mb-4">
-              <h3 class="text-center"><?php esc_html_e( 'Full Requirments', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></h3>
-              <p class="text-center"><?php esc_html_e( 'Full requirments of selected jobs and this popup can be dispear by pressing x button on top right or by pressing outside of this box.', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></p>
+              <h3 class="text-center"><?php esc_html_e( 'Full Requirements', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></h3>
+              <p class="text-center"><?php esc_html_e( 'Full requirements of selected jobs and this popup can be closed by pressing x button on top right or by pressing outside of this box.', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></p>
             </div>
             <div class="text-justify" id="fwp-text-see-more"></div>
           </form>

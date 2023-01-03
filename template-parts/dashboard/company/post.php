@@ -301,7 +301,7 @@ wp_enqueue_script( 'ckeditor' );
       <div class="col-lg-12">
         <div class="my_resume_textarea">
             <div class="form-group">
-              <label for="fwp-company-post-job-requirments"><?php esc_html_e( 'Job Requirments', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></label>
+              <label for="fwp-company-post-job-requirments"><?php esc_html_e( 'Job Requirements', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></label>
               <textarea class="form-control ckeditor" id="fwp-company-post-job-requirments" name="fwp-company-post-job[requirments]" rows="9"><?php echo esc_html( isset( $jobInfo[ 'meta' ][ 'jobs'][ 'requirments' ] ) ? $jobInfo[ 'meta' ][ 'jobs'][ 'requirments' ] : '' ); ?></textarea>
             </div>
         </div>
@@ -378,7 +378,7 @@ wp_enqueue_script( 'ckeditor' );
                       <option value="<?php echo esc_attr( $location->term_id ); ?>"><?php echo esc_html( $location->name ); ?></option>
                     <?php endforeach; ?>
                   </select>
-                  <textarea class="form-control jobvanuerequirments" placeholder="<?php esc_attr_e( 'Requirments', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?>" name="JobRequirments[]" cols="55" rows="5"></textarea>
+                  <textarea class="form-control jobvanuerequirments" placeholder="<?php esc_attr_e( 'Requirements', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?>" name="JobRequirments[]" cols="55" rows="5"></textarea>
                   <!-- <a class="btn btn-thm mt-2 cmb-remove-row-button button-disabled" href="#"><?php esc_html_e( 'Remove', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></a> -->
                 </td>
               </tr>
@@ -392,7 +392,7 @@ wp_enqueue_script( 'ckeditor' );
                       <option value="<?php echo esc_attr( $location->term_id ); ?>"><?php echo esc_html( $location->name ); ?></option>
                     <?php endforeach; ?>
                   </select>
-                  <textarea class="form-control jobvanuerequirments" placeholder="<?php esc_attr_e( 'Requirments', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?>" name="JobRequirments[]" cols="55" rows="5"></textarea>
+                  <textarea class="form-control jobvanuerequirments" placeholder="<?php esc_attr_e( 'Requirements', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?>" name="JobRequirments[]" cols="55" rows="5"></textarea>
                   <a class="btn btn-thm mt-2 remove-row" href="#"><?php esc_html_e( 'Remove', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ); ?></a>
                 </td>
               </tr>

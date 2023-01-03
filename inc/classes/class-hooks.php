@@ -354,13 +354,12 @@ class Hooks {
         'coverletter' => $job[ 'coverletter' ]
       ];
       $apply = apply_filters( 'futurewordpress/project/job/apply/get', [ 'job' => $args[ 'job_id' ], 'user' => get_current_user_id() ] );$is_edit = ( count( $apply ) >= 1 );$apply = (array) end( $apply );
-      
+
       if( isset( $apply[ 'ID' ] ) ) {$args[ 'id' ] = $apply[ 'ID' ];}
       if( isset( $_POST[ 'fwp-apply-job-add' ] ) && ! $is_edit ) {
         if( apply_filters( 'futurewordpress/project/job/apply/add', $args ) ) {
           $msg = [ 'status' => 'success', 'message' => __( get_fwp_option( 'msg_apply_added_txt', 'Application has been created successfully.' ), FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ) ];
           set_transient( 'status_successed_message-' . get_current_user_id(), $msg, 300 );
-          // print_r( $apply );wp_die();
           wp_safe_redirect( wp_get_referer() );
         } else {
           wp_die( __( 'Failed to create application', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ), __( 'Database error', FUTUREWORDPRESS_PROJECT_TEXT_DOMAIN ) );

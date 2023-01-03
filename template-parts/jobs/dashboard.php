@@ -21,7 +21,6 @@ get_header();
 					<?php if( is_FwpActive( 'dashboard_usercard' ) ) : ?>
 						<div class="user_profile">
 							<div class="media">
-									<img src="<?php echo esc_url( get_avatar_url( $userInfo->ID, [ 'size' => 96, 'default' => 'blank' ] ) ); ?>" class="align-self-start mr-3 rounded-circle" alt="avater">
 									<div class="media-body">
 										<h5 class="mt-0">Hi, <?php echo esc_html( $userInfo->display_name ); ?></h5>
 										<p><?php echo esc_html( $userInfo->user_email ); ?></p>
