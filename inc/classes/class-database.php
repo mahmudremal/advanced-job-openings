@@ -202,8 +202,8 @@ class Database {
   }
   public function applyCompanyGet( $args ) {
     global $wpdb;
-    $sql = "SELECT apply.* FROM {$wpdb->prefix}fwp_job_application apply LEFT JOIN {$wpdb->posts} post ON post.ID = apply.job_id WHERE post.post_type = '%s' AND post.post_author = %d";
-    $sqlArgs = [ FUTUREWORDPRESS_PROJECT_CPT_JOB_OPENINGS, get_current_user_id() ];
+    $sql = "SELECT apply.*, post.* FROM {$wpdb->prefix}fwp_job_application apply LEFT JOIN {$wpdb->posts} post ON post.ID = apply.job_id WHERE post.post_type = '%s' ORDER BY apply.job_id";
+    $sqlArgs = [ FUTUREWORDPRESS_PROJECT_CPT_JOB_OPENINGS ];
     if( isset( $args[ 'id' ] ) ) {
       $sql .= " AND apply.ID = %d";
       $sqlArgs[] = $args[ 'id' ];

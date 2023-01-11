@@ -30,6 +30,16 @@ class Assets {
 		if( is_front_page() ) {$class[] = 'fwp-body-frontpage';}
 		return array_merge( $classes, $class );
 	}
+
+    public function add_type_attribute( $tag, $handle, $src ) {
+
+        if ( 'main-js' !== $handle ) {
+            return $tag;
+        }
+        $tag = preg_replace("/(.*)(><\/script>)/", '$1 type="module"$2', $tag);
+        return $tag;
+    }
+
 	public function register_styles() {
 		// Register styles.
 		wp_register_style( 'bootstrap-css', FUTUREWORDPRESS_PROJECT_BUILD_LIB_URI . '/css/bootstrap.min.css', [], false, 'all' );
@@ -63,7 +73,9 @@ class Assets {
 
 		// Enqueue Scripts.
 		wp_enqueue_script( 'main-js' );
-		// wp_enqueue_script( 'bootstrap-js' );
+        add_filter( 'script_loader_tag', [ $this, 'add_type_attribute' ], 10, 3 );
+
+        // wp_enqueue_script( 'bootstrap-js' );
 		// wp_enqueue_script( 'slick-js' );
 
 		// If single post page

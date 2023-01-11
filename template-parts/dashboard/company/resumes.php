@@ -10,10 +10,16 @@
   <?php
   $applications = apply_filters( 'futurewordpress/project/job/apply/company', [] );
   if( count( $applications ) >= 1 ) :
+    $lastJobTitle = null;
     foreach( $applications as $apply ) :
       $job = get_post( $apply->job_id );
       $jobInfo = apply_filters( 'futurewordpress/project/renderpost', [], $job );
       $userInfo = get_userdata( $apply->user_id );
+
+      if ($lastJobTitle != $jobInfo['post']->post_title) {
+          print '<h5>' . $jobInfo['post']->post_title . '</h5>';
+          $lastJobTitle = $jobInfo['post']->post_title;
+      }
       ?>
       <div class="col-lg-12">
         <div class="candidate_list_view style2">

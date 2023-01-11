@@ -1,6 +1,5 @@
 import './frontend';
 
-
 // import './carousel';
 // import './posts/loadmore';
 // // Styles

@@ -22,7 +22,7 @@ class Dashboard {
     add_action( 'futurewordpress/project/job/dashboard/title', [ $this, 'titleArea' ], 1, 1 );
     add_action( 'futurewordpress/project/job/dashboard/content', [ $this, 'contentArea' ], 1, 1 );
     add_action( 'futurewordpress/project/job/dashboard/sidebar/list', [ $this, 'sideBarList' ], 1, 1 );
-		add_filter( 'futurewordpress/project/job/dashboard/sidebar/menus', [ $this, 'sideBarMenus' ], 10, 1 );
+    add_filter( 'futurewordpress/project/job/dashboard/sidebar/menus', [ $this, 'sideBarMenus' ], 10, 1 );
 
     add_action( 'futurewordpress/project/job/dashboard/content/home', [ $this, 'dashboardHome' ], 1, 1 );
     add_action( 'futurewordpress/project/job/dashboard/content/profile', [ $this, 'dashboardProfile' ], 1, 1 );

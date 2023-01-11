@@ -15,6 +15,8 @@
 			this.loadMoreBtn = $( '#load-more' );
 			this.loadingTextEl = $( '#loading-text' );
 			this.isRequestProcessing = false;
+
+            console.log("Test123")
       
 			this.init();
       // this.preload();this.scroll();
@@ -22,8 +24,15 @@
 		}
 
 		init() {
-      this.cv_add();this.cv_edit();this.cv_delete();this.apply_delete();this.job_delete();this.job_mark();this.dataTable();this.see_more();
-    }
+            this.cv_add();
+            this.cv_edit();
+            this.cv_delete();
+            this.apply_delete();
+            this.job_delete();
+            this.job_mark();
+            this.dataTable();
+            this.see_more();
+        }
     cv_add() {
       const thisClass = this;
       if( ! window.fwp_form_CV_ADD) {return;}
